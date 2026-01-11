@@ -4,14 +4,20 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UserAlreadyExistsError, UserNotFoundError } from './users.errors';
+import {
+  UserAlreadyExistsError,
+  UserNotFoundError,
+  UserPasswordIncorrectError,
+} from './users.errors';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -30,6 +36,7 @@ export class UsersService {
     return await this.usersRepository.save(newUser);
   }
 
+  // TODO: these should be allowed for admin only
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
@@ -72,5 +79,25 @@ export class UsersService {
       id: currentUser.id,
       isActive: false,
     });
+  }
+
+  // TODO: move this to auth module
+  async login(email: string, password: string): Promise<any> {
+    const user = await this.usersRepository.findOneBy({ email: email });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    if (!(await bcrypt.compare(password, user?.password))) {
+      throw new UserPasswordIncorrectError();
+    }
+
+    return {
+      token: await this.jwtService.signAsync({
+        sub: user.id,
+        username: user.email,
+      }),
+    };
   }
 }

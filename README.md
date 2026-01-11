@@ -2,9 +2,11 @@
 
 ## About
 
-This is an REST API implementation with NestJS for a simple Todo List app, based on [roadmap.sh's Todo List API](https://roadmap.sh/projects/todo-list-api) project, with the purpose of exploring both the framework and development concepts such as:
+This is an REST API implementation with NestJS + TypeORM for a simple Todo List app, based on [roadmap.sh's Todo List API](https://roadmap.sh/projects/todo-list-api) project, with the purpose of exploring both the framework and concepts such as:
 
 - Authentication with JWT
+- RBAC
+- Serialization with [interceptors](https://docs.nestjs.com/interceptors#binding-interceptors)
 - Error handling and HTTP codes
 - TDD with Jest (Unit and E2E tests)
 - Clean Architecture and SOLID principles

@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserAlreadyExistsError } from './users.errors';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -20,6 +21,7 @@ describe('UsersController', () => {
           useValue: mockRepository,
         },
       ],
+      imports: [JwtModule],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { User } from './users/entities/user.entity';
       entities: [User],
       synchronize: true,
     }),
+    TasksModule,
   ],
   controllers: [],
   providers: [],

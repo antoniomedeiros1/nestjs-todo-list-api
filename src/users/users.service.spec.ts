@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -20,6 +21,7 @@ describe('UsersService', () => {
           useValue: mockRepository,
         },
       ],
+      imports: [JwtModule],
     }).compile();
 
     service = module.get<UsersService>(UsersService);

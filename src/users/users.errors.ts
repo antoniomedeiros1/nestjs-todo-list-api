@@ -17,3 +17,13 @@ export class UserNotFoundError extends Error {
     super(UserNotFoundError.message, cause);
   }
 }
+
+export class UserPasswordIncorrectError extends Error {
+  static readonly message = 'User password is incorrect';
+
+  public readonly code = 'USER.PASSWORD_INCORRECT';
+
+  constructor(cause?: Error) {
+    super(UserPasswordIncorrectError.message, cause);
+  }
+}
