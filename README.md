@@ -26,6 +26,22 @@ To access the API Swagger (interactive documentation) access http://localhost:30
 
 ### Run tests
 
+#### Code Coverage
+
+> Ps: there are still many lines to cover with tests.
+
+```
+$ npm run test:cov
+```
+
+#### Unit Tests
+
 ```
 $ npm run test
+```
+
+#### E2E Tests
+
+```
+$ npm run test:e2e
 ```
