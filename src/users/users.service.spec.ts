@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { UserAlreadyExistsError } from './users.errors';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -70,7 +71,7 @@ describe('UsersService', () => {
       });
 
       await expect(service.create(dummyUser)).rejects.toThrow(
-        'User already exists',
+        UserAlreadyExistsError.message,
       );
     });
   });
@@ -91,8 +92,8 @@ describe('UsersService', () => {
     });
   });
 
-  describe('findOne', () => {
-    it('should find one user', async () => {
+  describe('findOneById', () => {
+    it('should find one user by id', async () => {
       const userInstance = new User({
         id: 123,
         name: 'John Doe',
@@ -103,7 +104,7 @@ describe('UsersService', () => {
 
       mockRepository.findOneBy.mockResolvedValue(userInstance);
 
-      expect(await service.findOne(123)).toBe(userInstance);
+      expect(await service.findOneById(123)).toBe(userInstance);
     });
   });
 

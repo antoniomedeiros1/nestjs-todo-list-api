@@ -41,8 +41,18 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOneById(id: number) {
     return this.usersRepository.findOneBy({ id: id });
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ email: email });
+
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
@@ -85,7 +95,7 @@ export class UsersService {
   async login(email: string, password: string): Promise<any> {
     const user = await this.usersRepository.findOneBy({ email: email });
 
-    if (!user) {
+    if (!user || !user?.isActive) {
       throw new UserNotFoundError();
     }
 

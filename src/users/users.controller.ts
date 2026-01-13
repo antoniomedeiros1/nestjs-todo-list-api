@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import {
   UserAlreadyExistsError,
@@ -22,6 +21,7 @@ import {
 } from './users.errors';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './users.guard';
+import { ApiSecurity } from '@nestjs/swagger';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller()
@@ -103,6 +103,7 @@ export class UsersController {
     }
   }
 
+  @ApiSecurity('bearer')
   @UseGuards(AuthGuard)
   @Get('me')
   getProfile(@Request() req) {
